@@ -5,7 +5,7 @@ export default function Home() {
     <div>
       <Button>Primary</Button>
       <Button variant="secondary" size="sm">
-        Secondary
+        Secondary123
       </Button>
       <Button variant="destructive">Destructive</Button>
       <Button variant="ghost">Ghost</Button>
