@@ -8,12 +8,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-const formSchema = z.object({
-  email: z.string().email(),
-  password: z.string().trim().min(1, "Password is required"),
-});
-
 import {
   Form,
   FormControl,
@@ -22,18 +16,21 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import Link from "next/link";
+import { loginSchema } from "../schemas";
+import { useLogin } from "../api/use-login";
 
 export const SignInCard = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const { mutate } = useLogin();
+  const form = useForm<z.infer<typeof loginSchema>>({
     defaultValues: {
       email: "",
       password: "",
     },
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  const onSubmit = (values: z.infer<typeof loginSchema>) => {
+    mutate({ json: values });
   };
   return (
     <Card className="w-full h-full md:w-[486px] border-none shadow-none">
@@ -88,7 +85,7 @@ export const SignInCard = () => {
       <div className="px-7">
         <DottedSeparator />
       </div>
-      <CardContent className="p-7">
+      <CardContent className="p-7 space-y-4">
         <Button
           variant="secondary"
           className="w-full"
